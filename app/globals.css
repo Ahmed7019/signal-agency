@@ -2,25 +2,24 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0c0c0b;
+  --electric: #9eb70d;
+  --muted: #7a7570;
+  --primary: #0f0f0e;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-electric: var(--electric);
+  --font-dmSans: var(--font-dmSans);
+  --font-syne: var(--font-syne);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "DM sans", Helvetica, sans-serif, Helvetica, sans-serif;
 }
