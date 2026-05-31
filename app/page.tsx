@@ -1,4 +1,6 @@
 import Navbar from "./components/Navbar";
+import Problem from "./components/Problem";
+import Services from "./components/Services";
 
 export default function Home() {
   return (
@@ -24,7 +26,10 @@ export default function Home() {
           </p>
         </div>
       </header>
-      <main className="my-16"></main>
+      <main className="my-16">
+        <Problem />
+        <Services />
+      </main>
     </>
   );
 }
