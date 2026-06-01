@@ -61,6 +61,15 @@ export default function Home() {
       ease: "power4.out",
     });
 
+    tl.from("#cta", {
+      y: 10,
+      x: -5,
+      autoAlpha: 0,
+      duration: 1,
+      stagger: 0.005,
+      ease: "power4.out",
+    });
+
     // Cleanup SplitText instances on unmount to prevent double splitting in StrictMode
     return () => {
       textH1.revert();
@@ -75,7 +84,7 @@ export default function Home() {
         <div id="smooth-content" ref={contentRef}>
           <header className="grid items-center h-dvh mx-8">
             <div className="flex flex-col gap-3">
-              <p className="text-muted text-xs font-dmSans font-light h1-animate">
+              <p className="text-electric text-xs font-dmSans font-light h1-animate">
                 — Content that moves markets
               </p>
               <h1 className="text-5xl font-bold font-syne text-primary tracking-tighter h1-animate">
@@ -91,6 +100,14 @@ export default function Home() {
                 the right audience, earn their trust, and convert them into
                 revenue — consistently
               </p>
+              <div className="flex flex-col gap-4" id="cta">
+                <button className="border bg-[#E8501A] rounded-md shadow-muted text-neutral-50 w-fit p-4 tracking-tighter font-extrabold text-lg">
+                  See our work
+                </button>
+                <button className="border rounded p-4 w-fit border-[#E2DDD6] font-extralight">
+                  Book a free strategy call
+                </button>
+              </div>
             </div>
           </header>
           <main className="my-16 mx-8">

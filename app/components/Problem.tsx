@@ -30,7 +30,7 @@ export default function Problem() {
         pin: true,
       },
       stagger: 1,
-      color: "black",
+      color: "#E8501A",
       autoAlpha: 1,
     });
 
@@ -42,7 +42,7 @@ export default function Problem() {
   return (
     <>
       <section className="flex flex-col items-center gap-4" id="problem">
-        <p className="text-center font-light text-muted text-sm" id="leader">
+        <p className="text-center font-light text-electric text-sm" id="leader">
           Creative agency building premium brands
         </p>
         <h2
