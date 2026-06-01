@@ -30,7 +30,7 @@ export default function Home() {
       wrapper: wrapperRef.current,
       content: contentRef.current,
       smooth: 2,
-      smoothTouch: 0.5,
+      smoothTouch: 0.1,
       effects: true,
     });
 
