@@ -14,7 +14,7 @@ export default function Problem() {
     tl.from("#leader", {
       scrollTrigger: {
         trigger: "#problem",
-        end: "bottom top",
+        start: "-=150",
         scrub: true,
       },
       y: 50,
@@ -24,9 +24,9 @@ export default function Problem() {
     tl.to(paraText.chars, {
       scrollTrigger: {
         trigger: "#problem",
-        start: "-=100",
+        start: "-=50",
         end: "bottom top",
-        scrub: true,
+        scrub: 1,
         pin: true,
       },
       stagger: 1,
