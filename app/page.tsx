@@ -44,6 +44,7 @@ export default function Home() {
       type: "chars,words,lines",
     });
     tl.from(textH1.chars, {
+      autoAlpha: 0,
       y: "200",
       x: "-5.05",
       duration: 0.9,
