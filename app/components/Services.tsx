@@ -6,19 +6,23 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Services() {
   useGSAP(() => {
-    const tl = gsap.timeline();
-    const li = document.querySelectorAll("li");
-    tl.to(li, {
-      scrollTrigger: {
-        trigger: "#services",
-        start: "-=50",
-        scrub: 1,
-        pin: true,
-        markers: true,
-      },
-      stagger: 0.1,
-      color: "black",
+    const ctx = gsap.context(() => {
+      const li = document.querySelectorAll("#services li");
+      gsap.to(li, {
+        scrollTrigger: {
+          trigger: "#services",
+          start: "top center",
+          end: "bottom center",
+          scrub: 1,
+          pin: true,
+        },
+        stagger: 0.1,
+        color: "black",
+        ease: "none",
+      });
     });
+
+    return () => ctx.revert();
   }, []);
   return (
     <>

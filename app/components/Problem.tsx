@@ -1,47 +1,71 @@
+"use client";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
+
 export default function Problem() {
+  const sectionRef = useRef<HTMLElement>(null);
+
   useGSAP(() => {
-    const tl = gsap.timeline();
+    const ctx = gsap.context(() => {
+      const paraText = SplitText.create("#para", {
+        type: "words,chars",
+      });
 
-    const paraText = SplitText.create("#para", {
-      type: "words,chars",
-    });
-    tl.from("#leader", {
-      scrollTrigger: {
-        trigger: "#problem",
-        start: "-=150",
-        scrub: true,
-      },
-      y: 50,
-      autoAlpha: 0,
-    });
+      // Leader text animation
+      gsap.from("#leader", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
 
-    tl.to(paraText.chars, {
-      scrollTrigger: {
-        trigger: "#problem",
-        start: "-=50",
-        end: "bottom top",
-        scrub: 1,
-        pin: true,
-      },
-      stagger: 1,
-      color: "#E8501A",
-      autoAlpha: 1,
-    });
+      // Heading animation
+      gsap.from("#heading", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
 
-    return () => {
-      ScrollTrigger?.killAll();
-      paraText.revert();
-    };
-  }, []);
+      // Paragraph color reveal animation
+      gsap.to(paraText.chars, {
+        scrollTrigger: {
+          trigger: "#problem",
+          start: "top 50%",
+          end: "bottom 30%",
+          scrub: 1,
+          pin: true,
+        },
+        stagger: 1,
+        color: "#E8501A",
+        opacity: 1,
+        ease: "none",
+      });
+
+      return () => {
+        paraText.revert();
+      };
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, { scope: sectionRef });
   return (
     <>
-      <section className="flex flex-col items-center gap-4" id="problem">
+      <section ref={sectionRef} className="flex flex-col items-center gap-4 py-20" id="problem">
         <p className="text-center font-light text-electric text-sm" id="leader">
           Creative agency building premium brands
         </p>

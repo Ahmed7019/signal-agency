@@ -22,8 +22,52 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: "DM sans", Helvetica, sans-serif, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .h1-animate {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Smooth scrolling for anchor links */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom selection colors */
+::selection {
+  background-color: var(--electric);
+  color: white;
+}
+
+/* Loading state for images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Focus states for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--electric);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for interactive elements */
+a,
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Prevent layout shift during font loading */
+.font-dmSans,
+.font-syne {
+  font-display: swap;
 }
