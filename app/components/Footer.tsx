@@ -12,22 +12,28 @@ export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".footer-content > *", {
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 90%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
-      });
-    }, footerRef);
+    if (!footerRef.current) return;
 
-    return () => ctx.revert();
-  }, { scope: footerRef });
+    const footerChildren = footerRef.current.querySelectorAll(".footer-content > *");
+
+    if (footerChildren.length === 0) return;
+
+    gsap.from(footerChildren, {
+      scrollTrigger: {
+        trigger: footerRef.current,
+        start: "top 90%",
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power3.out",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: footerRef, dependencies: [] });
 
   return (
     <footer

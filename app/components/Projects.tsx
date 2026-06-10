@@ -54,36 +54,43 @@ export default function Project() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      // Animate header
-      gsap.from(".project-header > *", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
+    if (!sectionRef.current) return;
 
-      // Animate project cards
-      gsap.from(".project-card", {
-        scrollTrigger: {
-          trigger: ".projects-grid",
-          start: "top 85%",
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.2,
-        ease: "power3.out",
-      });
-    }, sectionRef);
+    const headerChildren = sectionRef.current.querySelectorAll(".project-header > *");
+    const cards = sectionRef.current.querySelectorAll(".project-card");
 
-    return () => ctx.revert();
-  }, { scope: sectionRef });
+    if (headerChildren.length === 0 || cards.length === 0) return;
+
+    // Animate header
+    gsap.from(headerChildren, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+    });
+
+    // Animate project cards
+    gsap.from(cards, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 85%",
+      },
+      y: 60,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.2,
+      ease: "power3.out",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: sectionRef, dependencies: [] });
 
   return (
     <section ref={sectionRef} className="py-20 flex flex-col gap-12 border-t border-neutral-100" id="work">

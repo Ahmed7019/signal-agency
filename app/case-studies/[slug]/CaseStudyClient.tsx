@@ -124,8 +124,19 @@ export default function CaseStudyClient({ data }: { data: CaseStudyData }) {
   return (
     <div ref={containerRef} className={`min-h-screen ${t.bgClass} ${t.textClass} font-dmSans transition-colors duration-500`}>
       <Navbar />
-      
+
       <div className="pt-24 md:pt-32">
+        {/* BACK BUTTON */}
+        <div className="px-8 max-w-7xl mx-auto py-6">
+          <Link
+            href="/#work"
+            className={`group inline-flex items-center gap-2 text-sm font-mono uppercase tracking-wider ${t.accentText} hover:opacity-70 transition-all duration-300`}
+          >
+            <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+            Back to all work
+          </Link>
+        </div>
+
         {/* HERO SECTION */}
         <header className="px-8 max-w-7xl mx-auto py-16 md:py-24 border-b border-neutral-200/20">
           <div className="flex flex-col gap-6 max-w-4xl">

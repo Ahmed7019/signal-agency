@@ -30,36 +30,43 @@ export default function CTA() {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      // Testimonials Stagger
-      gsap.from(".testimonial-card", {
-        scrollTrigger: {
-          trigger: ".testimonials-grid",
-          start: "top 80%",
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
+    if (!containerRef.current) return;
 
-      // CTA Banner animation
-      gsap.from(".cta-content > *", {
-        scrollTrigger: {
-          trigger: ".cta-banner",
-          start: "top 85%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-      });
-    }, containerRef);
-    
-    return () => ctx.revert();
-  }, { scope: containerRef });
+    const testimonialCards = containerRef.current.querySelectorAll(".testimonial-card");
+    const ctaContent = containerRef.current.querySelectorAll(".cta-content > *");
+
+    if (testimonialCards.length === 0 || ctaContent.length === 0) return;
+
+    // Testimonials Stagger
+    gsap.from(testimonialCards, {
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+    });
+
+    // CTA Banner animation
+    gsap.from(ctaContent, {
+      scrollTrigger: {
+        trigger: containerRef.current.querySelector(".cta-banner"),
+        start: "top 85%",
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power2.out",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: containerRef, dependencies: [] });
 
   return (
     <section ref={containerRef} className="py-24 md:py-32 flex flex-col gap-32">

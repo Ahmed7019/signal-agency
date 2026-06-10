@@ -12,6 +12,7 @@ export default function Navbar() {
             width={50}
             height={50}
             className="object-contain"
+            style={{ height: "auto" }}
           />
         </Link>
         <button className="text-primary font-dmSans font-semibold hover:text-electric transition-colors cursor-pointer px-4 py-2 bg-neutral-100 hover:bg-neutral-200/80 rounded-full text-xs tracking-wider uppercase">

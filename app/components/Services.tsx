@@ -1,32 +1,43 @@
+"use client";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Services() {
+  const sectionRef = useRef<HTMLElement>(null);
+
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      const li = document.querySelectorAll("#services li");
-      gsap.to(li, {
-        scrollTrigger: {
-          trigger: "#services",
-          start: "top center",
-          end: "bottom center",
-          scrub: 1,
-          pin: true,
-        },
-        stagger: 0.1,
-        color: "black",
-        ease: "none",
-      });
+    if (!sectionRef.current) return;
+
+    const listItems = sectionRef.current.querySelectorAll("li");
+
+    if (listItems.length === 0) return;
+
+    gsap.to(listItems, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top center",
+        end: "bottom center",
+        scrub: 1,
+        pin: true,
+      },
+      stagger: 0.1,
+      color: "black",
+      ease: "none",
     });
 
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: sectionRef, dependencies: [] });
+
   return (
     <>
-      <section className="my-8 flex flex-col gap-8" id="services">
+      <section ref={sectionRef} className="my-8 flex flex-col gap-8" id="services">
         <p className="text-center text-electric font-light text-sm">Services</p>
         <ul className="font-extrabold text-[#d4d4d4] flex flex-col items-center text-3xl text-center gap-3 ">
           <li className="transition-colors">Content Strategy</li>

@@ -22,33 +22,40 @@ export default function Partners() {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".partner-title", {
-        scrollTrigger: {
-          trigger: ".partners-section",
-          start: "top 80%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+    if (!containerRef.current) return;
 
-      gsap.from(".partner-item", {
-        scrollTrigger: {
-          trigger: ".partners-marquee",
-          start: "top 85%",
-        },
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power2.out",
-      });
-    }, containerRef);
+    const titleEl = containerRef.current.querySelector(".partner-title");
+    const itemsEls = containerRef.current.querySelectorAll(".partner-item");
 
-    return () => ctx.revert();
-  }, { scope: containerRef });
+    if (!titleEl || itemsEls.length === 0) return;
+
+    gsap.from(titleEl, {
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from(itemsEls, {
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 85%",
+      },
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      stagger: 0.08,
+      ease: "power2.out",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: containerRef, dependencies: [] });
 
   return (
     <section

@@ -12,57 +12,62 @@ export default function Problem() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      const paraText = SplitText.create("#para", {
-        type: "words,chars",
-      });
+    if (!sectionRef.current) return;
 
-      // Leader text animation
-      gsap.from("#leader", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+    const paraEl = sectionRef.current.querySelector("#para");
+    const leaderEl = sectionRef.current.querySelector("#leader");
+    const headingEl = sectionRef.current.querySelector("#heading");
 
-      // Heading animation
-      gsap.from("#heading", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+    if (!paraEl || !leaderEl || !headingEl) return;
 
-      // Paragraph color reveal animation
-      gsap.to(paraText.chars, {
-        scrollTrigger: {
-          trigger: "#problem",
-          start: "top 50%",
-          end: "bottom 30%",
-          scrub: 1,
-          pin: true,
-        },
-        stagger: 1,
-        color: "#E8501A",
-        opacity: 1,
-        ease: "none",
-      });
+    const paraText = SplitText.create(paraEl, {
+      type: "words,chars",
+    });
 
-      return () => {
-        paraText.revert();
-      };
-    }, sectionRef);
+    // Leader text animation
+    gsap.from(leaderEl, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+    });
 
-    return () => ctx.revert();
-  }, { scope: sectionRef });
+    // Heading animation
+    gsap.from(headingEl, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 75%",
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    // Paragraph color reveal animation
+    gsap.to(paraText.chars, {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 50%",
+        end: "bottom 30%",
+        scrub: 1,
+        pin: true,
+      },
+      stagger: 1,
+      color: "#E8501A",
+      opacity: 1,
+      ease: "none",
+    });
+
+    return () => {
+      paraText.revert();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: sectionRef, dependencies: [] });
   return (
     <>
       <section ref={sectionRef} className="flex flex-col items-center gap-4 py-20" id="problem">
